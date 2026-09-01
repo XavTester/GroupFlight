@@ -4,13 +4,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#1f4e78">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Travel Comparator">
-<meta name="mobile-web-app-capable" content="yes">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="icons/icon-180.png">
 
 <title>Travel Comparator</title>
 
@@ -482,37 +475,6 @@ td:first-child {
 }
 
 /* =========================
-   PWA INSTALL
-========================= */
-
-.pwa-install-card {
-    border: 1px solid #bfdbfe;
-    background: #eff6ff;
-}
-
-.pwa-help-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(15, 23, 42, .55);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    z-index: 9999;
-}
-
-.pwa-help-modal {
-    width: min(520px, 100%);
-    background: white;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 20px 60px rgba(0,0,0,.25);
-}
-
-.pwa-help-modal h2 { margin-top: 0; }
-.pwa-help-modal li { margin: 10px 0; line-height: 1.45; }
-
-/* =========================
    RESPONSIVE
 ========================= */
 
@@ -635,14 +597,6 @@ td:first-child {
 
 </div>
 
-<div id="pwaInstallCard" class="card pwa-install-card" style="display:none">
-    <div class="section-title">
-        <h2>📱 Install on iPhone</h2>
-        <button class="btn btn-primary" onclick="showInstallHelp()">Install</button>
-    </div>
-    <p>For the best experience, add Travel Comparator to your iPhone Home Screen.</p>
-</div>
-
 
 <!-- =========================
      PARAMÈTRES
@@ -758,7 +712,7 @@ td:first-child {
         </div>
 
         <p data-i18n="thresholdHelp">
-            Example: Bob at 20:05, Xavier at 20:05 and Razi at 20:55 form a best group with a 50-minute window.
+            Example: X at 20:05, Y at 20:05 and Z at 20:55 form a best group with a 50-minute window.
         </p>
 
     </div>
@@ -1074,7 +1028,7 @@ const translations = {
         minutes3h: "minutes (3h)",
 
         thresholdHelp:
-            "Exemple : Bob à 20h05, Xavier à 20h05 et Razi à 20h55 forment un meilleur groupe avec une fenêtre de 50 minutes.",
+            "Exemple : X à 20h05, Y à 20h05 et Z à 20h55 forment un meilleur groupe avec une fenêtre de 50 minutes.",
 
         groupsTitle: "👥 Groupes",
         addGroup: "+ Ajouter un groupe",
@@ -1183,7 +1137,7 @@ const translations = {
         minutes3h: "minutes (3h)",
 
         thresholdHelp:
-            "Example: Bob at 20:05, Xavier at 20:05 and Razi at 20:55 form a best group with a 50-minute window.",
+            "Example: X at 20:05, Y at 20:05 and Z at 20:55 form a best group with a 50-minute window.",
 
         groupsTitle: "👥 Groups",
         addGroup: "+ Add group",
@@ -1446,24 +1400,10 @@ function createDefaultData() {
 
             {
                 id: generateId(),
-                name: "Bob",
-                origin: "Riyadh",
+                name: "",
+                origin: "",
                 flights: []
             },
-
-            {
-                id: generateId(),
-                name: "Xavier",
-                origin: "Paris",
-                flights: []
-            },
-
-            {
-                id: generateId(),
-                name: "Razi",
-                origin: "Melbourne",
-                flights: []
-            }
 
         ]
 
@@ -4987,84 +4927,6 @@ function showTab(
 
 }
 
-
-/* =====================================================
-   PWA / INSTALLATION iPHONE
-===================================================== */
-
-let deferredInstallPrompt = null;
-
-function showInstallHelp() {
-    const existing = document.getElementById("pwaHelpOverlay");
-    if (existing) existing.remove();
-
-    const overlay = document.createElement("div");
-    overlay.id = "pwaHelpOverlay";
-    overlay.className = "pwa-help-overlay";
-
-    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-    overlay.innerHTML = `
-        <div class="pwa-help-modal">
-            <h2>📱 Install Travel Comparator</h2>
-            ${isIOS ? `
-                <ol>
-                    <li>Open this website in <strong>Safari</strong> on your iPhone.</li>
-                    <li>Tap the <strong>Share</strong> button.</li>
-                    <li>Choose <strong>Add to Home Screen</strong>.</li>
-                    <li>Tap <strong>Add</strong>.</li>
-                </ol>
-                <p>The app will then open from your Home Screen like a standalone app.</p>
-            ` : `
-                <ol>
-                    <li>Use your browser's install/add-to-home-screen option.</li>
-                    <li>Confirm the installation.</li>
-                </ol>
-            `}
-            <button class="btn btn-primary" onclick="document.getElementById('pwaHelpOverlay').remove()">OK</button>
-        </div>
-    `;
-
-    overlay.addEventListener("click", event => {
-        if (event.target === overlay) overlay.remove();
-    });
-
-    document.body.appendChild(overlay);
-}
-
-window.addEventListener("beforeinstallprompt", event => {
-    event.preventDefault();
-    deferredInstallPrompt = event;
-    const card = document.getElementById("pwaInstallCard");
-    if (card) {
-        card.style.display = "block";
-        card.querySelector("button").onclick = installPWA;
-    }
-});
-
-window.addEventListener("appinstalled", () => {
-    deferredInstallPrompt = null;
-    const card = document.getElementById("pwaInstallCard");
-    if (card) card.style.display = "none";
-});
-
-async function installPWA() {
-    if (!deferredInstallPrompt) {
-        showInstallHelp();
-        return;
-    }
-    deferredInstallPrompt.prompt();
-    await deferredInstallPrompt.userChoice;
-    deferredInstallPrompt = null;
-}
-
-if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-        navigator.serviceWorker.register("sw.js").catch(error => {
-            console.warn("Service worker registration failed:", error);
-        });
-    });
-}
 
 /* =====================================================
    DÉMARRAGE
