@@ -1,0 +1,5078 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1f4e78">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Travel Comparator">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+
+<title>Travel Comparator</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f6f8;
+    color: #1f2937;
+}
+
+header {
+    background: #1f4e78;
+    color: white;
+    padding: 22px 30px;
+}
+
+header .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+header h1 {
+    margin: 0 0 5px;
+    font-size: 28px;
+}
+
+header p {
+    margin: 0;
+    opacity: .85;
+}
+
+.language-switch {
+    display: flex;
+    gap: 5px;
+    background: rgba(255,255,255,.15);
+    padding: 4px;
+    border-radius: 8px;
+}
+
+.language-switch button {
+    border: none;
+    background: transparent;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.language-switch button.active {
+    background: white;
+    color: #1f4e78;
+}
+
+.container {
+    max-width: 1600px;
+    margin: auto;
+    padding: 25px;
+}
+
+/* =========================
+   TABS
+========================= */
+
+.tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+}
+
+.tab-button {
+    border: none;
+    background: #dbe3eb;
+    padding: 12px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #334155;
+}
+
+.tab-button.active {
+    background: #1f4e78;
+    color: white;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.07);
+}
+
+.card h2 {
+    margin-top: 0;
+}
+
+/* =========================
+   FORMS
+========================= */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+label {
+    font-size: 13px;
+    font-weight: bold;
+    color: #475569;
+}
+
+input,
+select {
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    font-size: 14px;
+    background: white;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #1f4e78;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn {
+    border: none;
+    border-radius: 7px;
+    padding: 10px 16px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-primary {
+    background: #1f4e78;
+    color: white;
+}
+
+.btn-success {
+    background: #16a34a;
+    color: white;
+}
+
+.btn-danger {
+    background: #dc2626;
+    color: white;
+}
+
+.btn-secondary {
+    background: #64748b;
+    color: white;
+}
+
+.btn-light {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+.btn-whatsapp {
+    background: #25d366;
+    color: white;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+/* =========================
+   GROUPS
+========================= */
+
+.group-card {
+    border: 1px solid #dbe3eb;
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 15px;
+}
+
+.group-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.group-title h3 {
+    margin: 0;
+}
+
+/* =========================
+   FLIGHTS
+========================= */
+
+.flight-card {
+    border: 1px solid #dbe3eb;
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 15px;
+    background: #fafcff;
+}
+
+.flight-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.flight-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.table-wrapper {
+    overflow-x: auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.07);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1100px;
+}
+
+th {
+    background: #1f4e78;
+    color: white;
+    padding: 14px;
+    text-align: center;
+}
+
+th:first-child {
+    text-align: left;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: center;
+    vertical-align: middle;
+}
+
+td:first-child {
+    text-align: left;
+    font-weight: bold;
+    background: #f8fafc;
+}
+
+.good {
+    background: #dcfce7;
+    border: 1px solid #86efac;
+    color: #166534;
+}
+
+.medium {
+    background: #fef3c7;
+    border: 1px solid #fcd34d;
+    color: #92400e;
+}
+
+.bad {
+    background: #fee2e2;
+    border: 1px solid #fca5a5;
+    color: #991b1b;
+}
+
+.neutral {
+    color: #94a3b8;
+}
+
+/* =========================
+   RECOMMENDATIONS
+========================= */
+
+.recommendations {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.recommendation {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.07);
+    border-top: 5px solid #16a34a;
+}
+
+.recommendation.possible {
+    border-top-color: #f59e0b;
+}
+
+.recommendation.return {
+    border-top-color: #2563eb;
+}
+
+.recommendation h3 {
+    margin-top: 10px;
+}
+
+.recommendation .people {
+    font-size: 20px;
+    font-weight: 800;
+    margin: 12px 0;
+}
+
+.recommendation p {
+    margin: 7px 0;
+    color: #475569;
+}
+
+.window {
+    font-size: 25px;
+    font-weight: 800;
+    margin: 15px 0;
+}
+
+/* =========================
+   SECTION TITLES
+========================= */
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.section-title h2 {
+    margin: 0;
+}
+
+/* =========================
+   QUICK READ
+========================= */
+
+.quick-read {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.quick-read h2 {
+    color: #1e40af;
+}
+
+.quick-item {
+    background: white;
+    border-radius: 8px;
+    padding: 13px;
+    margin: 8px 0;
+}
+
+/* =========================
+   WHATSAPP
+========================= */
+
+.whatsapp-card {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+}
+
+.whatsapp-preview {
+    white-space: pre-wrap;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    padding: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.55;
+    max-height: 550px;
+    overflow-y: auto;
+}
+
+.whatsapp-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+/* =========================
+   BADGES
+========================= */
+
+.badge {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 5px 9px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.badge-green {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.badge-orange {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.badge-blue {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.badge-red {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* =========================
+   EMPTY
+========================= */
+
+.empty {
+    text-align: center;
+    padding: 40px;
+    color: #64748b;
+}
+
+/* =========================
+   PWA INSTALL
+========================= */
+
+.pwa-install-card {
+    border: 1px solid #bfdbfe;
+    background: #eff6ff;
+}
+
+.pwa-help-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, .55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 9999;
+}
+
+.pwa-help-modal {
+    width: min(520px, 100%);
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.25);
+}
+
+.pwa-help-modal h2 { margin-top: 0; }
+.pwa-help-modal li { margin: 10px 0; line-height: 1.45; }
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1100px) {
+
+    .form-grid,
+    .flight-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .recommendations {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 650px) {
+
+    body {
+        font-size: 14px;
+    }
+
+    .container {
+        padding: 15px;
+    }
+
+    .form-grid,
+    .flight-grid {
+        grid-template-columns: 1fr;
+    }
+
+    header {
+        padding: 18px;
+    }
+
+    header h1 {
+        font-size: 22px;
+    }
+
+    header .header-top {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="header-top">
+
+    <div>
+        <h1 data-i18n="title">
+            ✈️ Travel Comparator
+        </h1>
+
+        <p data-i18n="subtitle">
+            Find automatically the best arrival and return combinations
+        </p>
+    </div>
+
+    <div class="language-switch">
+
+        <button
+            id="frButton"
+            onclick="setLanguage('fr')">
+            🇫🇷 FR
+        </button>
+
+        <button
+            id="enButton"
+            class="active"
+            onclick="setLanguage('en')">
+            🇬🇧 EN
+        </button>
+
+    </div>
+
+</div>
+
+</header>
+
+<div class="container">
+
+<!-- =========================
+     NAVIGATION
+========================== -->
+
+<div class="tabs">
+
+    <button
+        class="tab-button active"
+        onclick="showTab('settings', this)"
+        data-i18n="tabGroups">
+        ⚙️ Groups
+    </button>
+
+    <button
+        class="tab-button"
+        onclick="showTab('flights', this)"
+        data-i18n="tabFlights">
+        ✈️ Flights
+    </button>
+
+    <button
+        class="tab-button"
+        onclick="showTab('matrix', this)"
+        data-i18n="tabMatrix">
+        📊 Matrix
+    </button>
+
+    <button
+        class="tab-button"
+        onclick="showTab('recommendations', this)"
+        data-i18n="tabRecommendations">
+        ⭐ Recommendations
+    </button>
+
+</div>
+
+<div id="pwaInstallCard" class="card pwa-install-card" style="display:none">
+    <div class="section-title">
+        <h2>📱 Install on iPhone</h2>
+        <button class="btn btn-primary" onclick="showInstallHelp()">Install</button>
+    </div>
+    <p>For the best experience, add Travel Comparator to your iPhone Home Screen.</p>
+</div>
+
+
+<!-- =========================
+     PARAMÈTRES
+========================== -->
+
+<section
+    id="settings"
+    class="tab-content active">
+
+    <div class="card">
+
+        <h2 data-i18n="tripTitle">
+            🌍 Trip
+        </h2>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label data-i18n="destination">
+                    Common destination
+                </label>
+
+                <input
+                    id="destination"
+                    type="text"
+                    placeholder="e.g. Kuala Lumpur">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label data-i18n="departureDate">
+                    Desired departure date
+                </label>
+
+                <input
+                    id="departureDate"
+                    type="date">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label data-i18n="returnDate">
+                    Desired return date
+                </label>
+
+                <input
+                    id="returnDate"
+                    type="date">
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2 data-i18n="groupSettings">
+            🎯 Group settings
+        </h2>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label data-i18n="goodThreshold">
+                    "Best group" threshold
+                </label>
+
+                <div>
+                    <input
+                        id="goodThreshold"
+                        type="number"
+                        min="1"
+                        max="180"
+                        value="60">
+
+                    <span data-i18n="minutes">
+                        minutes
+                    </span>
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label data-i18n="maxThreshold">
+                    Maximum group threshold
+                </label>
+
+                <div>
+                    <input
+                        id="maxThreshold"
+                        type="number"
+                        min="1"
+                        max="720"
+                        value="180">
+
+                    <span data-i18n="minutes3h">
+                        minutes (3h)
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <p data-i18n="thresholdHelp">
+            Example: Bob at 20:05, Xavier at 20:05 and Razi at 20:55 form a best group with a 50-minute window.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="group-title">
+
+            <h2 data-i18n="groupsTitle">
+                👥 Groups
+            </h2>
+
+            <button
+                class="btn btn-primary"
+                onclick="addGroup()"
+                data-i18n="addGroup">
+                + Add group
+            </button>
+
+        </div>
+
+        <div id="groupsContainer"></div>
+
+    </div>
+
+
+    <div class="actions">
+
+        <button
+            class="btn btn-success"
+            onclick="updateEverything()"
+            data-i18n="update">
+            🔄 Update
+        </button>
+
+
+        <button
+            class="btn btn-primary"
+            onclick="exportJSON()"
+            data-i18n="export">
+            📤 Export JSON
+        </button>
+
+
+        <button
+            class="btn btn-secondary"
+            onclick="document.getElementById('importFile').click()"
+            data-i18n="import">
+            📥 Import JSON
+        </button>
+
+
+        <input
+            id="importFile"
+            type="file"
+            accept=".json,application/json"
+            style="display:none"
+            onchange="importJSON(event)">
+
+
+        <button
+            class="btn btn-light"
+            onclick="resetAll()"
+            data-i18n="reset">
+            🗑️ Reset
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     VOLS
+========================== -->
+
+<section
+    id="flights"
+    class="tab-content">
+
+    <div class="card">
+
+        <h2 data-i18n="flightCases">
+            ✈️ Flight options
+        </h2>
+
+        <p data-i18n="flightHelp">
+            Add as many flight options as necessary for each group.
+        </p>
+
+        <div id="flightsContainer"></div>
+
+    </div>
+
+
+    <div class="actions">
+
+        <button
+            class="btn btn-success"
+            onclick="updateEverything()"
+            data-i18n="updateMatrix">
+            🔄 Update matrix
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     MATRICE
+========================== -->
+
+<section
+    id="matrix"
+    class="tab-content">
+
+    <div class="card">
+
+        <h2 data-i18n="arrivalMatrix">
+            🛬 Arrival matrix
+        </h2>
+
+        <p id="matrixSubtitle"></p>
+
+    </div>
+
+    <div id="arrivalMatrix"></div>
+
+
+    <div
+        class="card"
+        style="margin-top:25px">
+
+        <h2 data-i18n="returnMatrix">
+            🛫 Return departure matrix
+        </h2>
+
+    </div>
+
+    <div id="returnMatrix"></div>
+
+</section>
+
+
+<!-- =========================
+     RECOMMANDATIONS
+========================== -->
+
+<section
+    id="recommendations"
+    class="tab-content">
+
+    <div class="card">
+
+        <h2 data-i18n="bestCombinations">
+            ⭐ Best combinations
+        </h2>
+
+        <p data-i18n="recommendationHelp">
+            The system searches groups of 2, 3, 4 or more people. A combination is considered possible when everyone fits inside the configured maximum time window.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="section-title">
+
+            <h2 data-i18n="arrivalRecommendations">
+                🛬 Arrival recommendations
+            </h2>
+
+        </div>
+
+        <div
+            id="arrivalRecommendations"
+            class="recommendations">
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="section-title">
+
+            <h2 data-i18n="returnRecommendations">
+                🛫 Return departure recommendations
+            </h2>
+
+        </div>
+
+        <div
+            id="returnRecommendations"
+            class="recommendations">
+        </div>
+
+    </div>
+
+
+    <div
+        id="quickRead"
+        class="quick-read">
+
+        <h2 data-i18n="quickRead">
+            💡 Quick read
+        </h2>
+
+        <div id="quickReadContent"></div>
+
+    </div>
+
+
+    <!-- =========================
+         WHATSAPP
+    ========================== -->
+
+    <div class="card whatsapp-card">
+
+        <h2 data-i18n="whatsappTitle">
+            📱 WhatsApp summary
+        </h2>
+
+        <p data-i18n="whatsappHelp">
+            Generate a ready-to-send WhatsApp message summarizing the best arrival and return organization.
+        </p>
+
+        <div class="form-group">
+
+            <label data-i18n="whatsappLanguage">
+                Message language
+            </label>
+
+            <select id="whatsappLanguage">
+
+                <option value="en" selected>
+                    🇬🇧 English
+                </option>
+
+                <option value="fr">
+                    🇫🇷 Français
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="whatsapp-actions">
+
+            <button
+                class="btn btn-whatsapp"
+                onclick="generateWhatsAppMessage()"
+                data-i18n="generateWhatsapp">
+                📱 Generate WhatsApp message
+            </button>
+
+            <button
+                class="btn btn-primary"
+                onclick="copyWhatsAppMessage()"
+                data-i18n="copyWhatsapp">
+                📋 Copy message
+            </button>
+
+        </div>
+
+        <div
+            id="whatsappPreview"
+            class="whatsapp-preview"
+            style="margin-top:15px">
+
+            <span data-i18n="whatsappPlaceholder">
+                Your WhatsApp summary will appear here.
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+</div>
+
+<script>
+
+/* =====================================================
+   TRADUCTIONS
+===================================================== */
+
+const translations = {
+
+    fr: {
+
+        title: "✈️ Comparateur de voyages",
+        subtitle: "Trouver automatiquement les meilleures combinaisons d'arrivée et de retour",
+
+        tabGroups: "⚙️ Groupes",
+        tabFlights: "✈️ Vols",
+        tabMatrix: "📊 Matrice",
+        tabRecommendations: "⭐ Recommandations",
+
+        tripTitle: "🌍 Voyage",
+        destination: "Destination commune",
+        departureDate: "Date de départ souhaitée",
+        returnDate: "Date de retour souhaitée",
+
+        groupSettings: "🎯 Paramètres de regroupement",
+        goodThreshold: "Seuil « meilleur groupe »",
+        maxThreshold: "Seuil maximum pour un groupe",
+        minutes: "minutes",
+        minutes3h: "minutes (3h)",
+
+        thresholdHelp:
+            "Exemple : Bob à 20h05, Xavier à 20h05 et Razi à 20h55 forment un meilleur groupe avec une fenêtre de 50 minutes.",
+
+        groupsTitle: "👥 Groupes",
+        addGroup: "+ Ajouter un groupe",
+
+        update: "🔄 Mettre à jour",
+        export: "📤 Exporter JSON",
+        import: "📥 Importer JSON",
+        reset: "🗑️ Réinitialiser",
+
+        flightCases: "✈️ Cas de vols",
+        flightHelp:
+            "Ajoutez autant de cas de vol que nécessaire pour chaque groupe.",
+        updateMatrix: "🔄 Mettre à jour la matrice",
+
+        arrivalMatrix: "🛬 Matrice des arrivées",
+        returnMatrix: "🛫 Matrice des départs retour",
+
+        bestCombinations: "⭐ Meilleures combinaisons",
+        recommendationHelp:
+            "Le système cherche des groupes de 2, 3, 4 personnes ou plus. Une combinaison est considérée comme possible si tout le monde peut être contenu dans la fenêtre maximale configurée.",
+
+        arrivalRecommendations: "🛬 Recommandations d'arrivée",
+        returnRecommendations: "🛫 Recommandations de départ retour",
+
+        quickRead: "💡 Lecture rapide",
+
+        whatsappTitle: "📱 Résumé WhatsApp",
+        whatsappHelp:
+            "Générez un message WhatsApp prêt à envoyer résumant la meilleure organisation des arrivées et des retours.",
+        whatsappLanguage: "Langue du message",
+        generateWhatsapp: "📱 Générer le message WhatsApp",
+        copyWhatsapp: "📋 Copier le message",
+        whatsappPlaceholder:
+            "Votre résumé WhatsApp apparaîtra ici.",
+
+        group: "Groupe",
+        option: "Option",
+        departure: "Départ",
+        arrivalDay: "Jour arrivée",
+        arrivalTime: "Heure arrivée",
+        returnDateLabel: "Date retour",
+        returnTime: "Heure départ retour",
+
+        addFlight: "+ Ajouter un vol",
+        delete: "Supprimer",
+        noFlight: "Aucun cas de vol.",
+        noGroups: "Aucun groupe.",
+        noData: "Pas assez de données",
+
+        bestGroup: "MEILLEUR GROUPE",
+        possibleGroup: "GROUPE POSSIBLE",
+        returnBest: "MEILLEUR RETOUR",
+        returnPossible: "RETOUR POSSIBLE",
+
+        arrivalWindow: "Fenêtre totale d'arrivée",
+        returnWindow: "Fenêtre totale de départ retour",
+
+        noArrivalGroup:
+            "Aucun groupe d'arrivée ne peut être regroupé dans la fenêtre maximale.",
+        noReturnGroup:
+            "Aucun groupe de départ retour ne peut être regroupé dans la fenêtre maximale.",
+
+        scenario: "Scénario",
+
+        difference: "Écart",
+        destinationLabel: "Destination commune",
+
+        bestArrival: "Meilleur groupe d'arrivée",
+        bestReturn: "Meilleur groupe de retour",
+
+        copied: "✅ Message copié dans le presse-papiers.",
+        imported: "✅ Données importées avec succès.",
+        invalidFile: "❌ Format JSON invalide.",
+        resetConfirm: "Réinitialiser toutes les données ?",
+        deleteConfirm: "Supprimer ce groupe et tous ses vols ?",
+
+        optionLabel: "Option",
+        dateUnknown: "Date ?",
+        timeUnknown: "Heure ?",
+
+        noReturn: "Pas de retour",
+
+        destinationUnknown: "Destination non définie"
+
+    },
+
+    en: {
+
+        title: "✈️ Travel Comparator",
+        subtitle: "Automatically find the best arrival and return combinations",
+
+        tabGroups: "⚙️ Groups",
+        tabFlights: "✈️ Flights",
+        tabMatrix: "📊 Matrix",
+        tabRecommendations: "⭐ Recommendations",
+
+        tripTitle: "🌍 Trip",
+        destination: "Common destination",
+        departureDate: "Desired departure date",
+        returnDate: "Desired return date",
+
+        groupSettings: "🎯 Group settings",
+        goodThreshold: '"Best group" threshold',
+        maxThreshold: "Maximum group threshold",
+        minutes: "minutes",
+        minutes3h: "minutes (3h)",
+
+        thresholdHelp:
+            "Example: Bob at 20:05, Xavier at 20:05 and Razi at 20:55 form a best group with a 50-minute window.",
+
+        groupsTitle: "👥 Groups",
+        addGroup: "+ Add group",
+
+        update: "🔄 Update",
+        export: "📤 Export JSON",
+        import: "📥 Import JSON",
+        reset: "🗑️ Reset",
+
+        flightCases: "✈️ Flight options",
+        flightHelp:
+            "Add as many flight options as necessary for each group.",
+        updateMatrix: "🔄 Update matrix",
+
+        arrivalMatrix: "🛬 Arrival matrix",
+        returnMatrix: "🛫 Return departure matrix",
+
+        bestCombinations: "⭐ Best combinations",
+        recommendationHelp:
+            "The system searches groups of 2, 3, 4 or more people. A combination is considered possible when everyone fits inside the configured maximum time window.",
+
+        arrivalRecommendations: "🛬 Arrival recommendations",
+        returnRecommendations: "🛫 Return departure recommendations",
+
+        quickRead: "💡 Quick read",
+
+        whatsappTitle: "📱 WhatsApp summary",
+        whatsappHelp:
+            "Generate a ready-to-send WhatsApp message summarizing the best arrival and return organization.",
+        whatsappLanguage: "Message language",
+        generateWhatsapp: "📱 Generate WhatsApp message",
+        copyWhatsapp: "📋 Copy message",
+        whatsappPlaceholder:
+            "Your WhatsApp summary will appear here.",
+
+        group: "Group",
+        option: "Option",
+        departure: "Departure",
+        arrivalDay: "Arrival day",
+        arrivalTime: "Arrival time",
+        returnDateLabel: "Return date",
+        returnTime: "Return departure",
+
+        addFlight: "+ Add flight",
+        delete: "Delete",
+        noFlight: "No flight option.",
+        noGroups: "No groups.",
+        noData: "Not enough data",
+
+        bestGroup: "BEST GROUP",
+        possibleGroup: "POSSIBLE GROUP",
+        returnBest: "BEST RETURN GROUP",
+        returnPossible: "POSSIBLE RETURN GROUP",
+
+        arrivalWindow: "Total arrival window",
+        returnWindow: "Total return departure window",
+
+        noArrivalGroup:
+            "No arrival group can be formed within the maximum window.",
+        noReturnGroup:
+            "No return departure group can be formed within the maximum window.",
+
+        scenario: "Scenario",
+
+        difference: "Difference",
+        destinationLabel: "Common destination",
+
+        bestArrival: "Best arrival group",
+        bestReturn: "Best return group",
+
+        copied: "✅ Message copied to clipboard.",
+        imported: "✅ Data imported successfully.",
+        invalidFile: "❌ Invalid JSON format.",
+        resetConfirm: "Reset all data?",
+        deleteConfirm: "Delete this group and all its flights?",
+
+        optionLabel: "Option",
+        dateUnknown: "Date ?",
+        timeUnknown: "Time ?",
+
+        noReturn: "No return",
+
+        destinationUnknown: "Destination not defined"
+
+    }
+
+};
+
+
+/* =====================================================
+   DONNÉES
+===================================================== */
+
+let data = {
+
+    version: 3,
+
+    destination: "",
+
+    departureDate: "",
+
+    returnDate: "",
+
+    goodThreshold: 60,
+
+    maxThreshold: 180,
+
+    groups: []
+
+};
+
+let currentLanguage =
+    localStorage.getItem("travelComparatorLanguage")
+    || "en";
+
+
+/* =====================================================
+   TRADUCTION
+===================================================== */
+
+function t(key) {
+
+    return (
+        translations[currentLanguage][key]
+        ||
+        translations.en[key]
+        ||
+        key
+    );
+
+}
+
+
+function applyTranslations() {
+
+    document
+        .querySelectorAll("[data-i18n]")
+        .forEach(element => {
+
+            const key =
+                element.getAttribute("data-i18n");
+
+            element.innerHTML =
+                t(key);
+
+        });
+
+
+    document.documentElement.lang =
+        currentLanguage;
+
+
+    document.getElementById("frButton")
+        .classList.toggle(
+            "active",
+            currentLanguage === "fr"
+        );
+
+
+    document.getElementById("enButton")
+        .classList.toggle(
+            "active",
+            currentLanguage === "en"
+        );
+
+
+    renderSettings();
+
+    renderFlights();
+
+    updateEverything();
+
+}
+
+
+function setLanguage(language) {
+
+    if (
+        language !== "fr" &&
+        language !== "en"
+    )
+        return;
+
+
+    currentLanguage =
+        language;
+
+
+    localStorage.setItem(
+        "travelComparatorLanguage",
+        language
+    );
+
+
+    applyTranslations();
+
+}
+
+
+/* =====================================================
+   INITIALISATION
+===================================================== */
+
+function init() {
+
+    const saved =
+        localStorage.getItem(
+            "travelComparator"
+        );
+
+
+    if (saved) {
+
+        try {
+
+            data =
+                JSON.parse(saved);
+
+        } catch (e) {
+
+            createDefaultData();
+
+        }
+
+    } else {
+
+        createDefaultData();
+
+    }
+
+
+    normalizeData();
+
+    renderSettings();
+
+    renderFlights();
+
+    applyTranslations();
+
+}
+
+
+function createDefaultData() {
+
+    data = {
+
+        version: 3,
+
+        destination: "Kuala Lumpur",
+
+        departureDate: "",
+
+        returnDate: "",
+
+        goodThreshold: 60,
+
+        maxThreshold: 180,
+
+        groups: [
+
+            {
+                id: generateId(),
+                name: "Bob",
+                origin: "Riyadh",
+                flights: []
+            },
+
+            {
+                id: generateId(),
+                name: "Xavier",
+                origin: "Paris",
+                flights: []
+            },
+
+            {
+                id: generateId(),
+                name: "Razi",
+                origin: "Melbourne",
+                flights: []
+            }
+
+        ]
+
+    };
+
+}
+
+
+/* =====================================================
+   NORMALISATION
+===================================================== */
+
+function normalizeData() {
+
+    if (!data.version)
+        data.version = 3;
+
+    if (data.goodThreshold == null)
+        data.goodThreshold = 60;
+
+    if (data.maxThreshold == null)
+        data.maxThreshold = 180;
+
+    if (!Array.isArray(data.groups))
+        data.groups = [];
+
+
+    data.groups.forEach(group => {
+
+        if (!group.id)
+            group.id = generateId();
+
+        if (!group.name)
+            group.name = "Group";
+
+        if (!group.origin)
+            group.origin = "";
+
+        if (!Array.isArray(group.flights))
+            group.flights = [];
+
+
+        group.flights.forEach(flight => {
+
+            if (!flight.id)
+                flight.id = generateId();
+
+            if (flight.arrivalDay == null)
+                flight.arrivalDay = 0;
+
+            if (!flight.departureDate)
+                flight.departureDate =
+                    data.departureDate || "";
+
+            if (!flight.returnDate)
+                flight.returnDate =
+                    data.returnDate || "";
+
+        });
+
+    });
+
+}
+
+
+/* =====================================================
+   UTILITAIRES
+===================================================== */
+
+function generateId() {
+
+    return Date.now().toString(36)
+        +
+        Math.random()
+            .toString(36)
+            .substring(2);
+
+}
+
+
+function getGroup(id) {
+
+    return data.groups.find(
+        g => g.id === id
+    );
+
+}
+
+
+function escapeHtml(value) {
+
+    if (value == null)
+        return "";
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =====================================================
+   GROUPES
+===================================================== */
+
+function addGroup() {
+
+    data.groups.push({
+
+        id: generateId(),
+
+        name:
+            currentLanguage === "fr"
+            ? "Nouveau groupe " +
+              (data.groups.length + 1)
+            : "New group " +
+              (data.groups.length + 1),
+
+        origin: "",
+
+        flights: []
+
+    });
+
+
+    renderSettings();
+
+    renderFlights();
+
+    saveData();
+
+}
+
+
+function removeGroup(id) {
+
+    if (!confirm(t("deleteConfirm")))
+        return;
+
+
+    data.groups =
+        data.groups.filter(
+            g => g.id !== id
+        );
+
+
+    renderSettings();
+
+    renderFlights();
+
+    updateEverything();
+
+}
+
+
+function updateGroup(
+    id,
+    field,
+    value
+) {
+
+    const group =
+        getGroup(id);
+
+
+    if (group)
+        group[field] = value;
+
+
+    saveData();
+
+}
+
+
+/* =====================================================
+   RENDU GROUPES
+===================================================== */
+
+function renderSettings() {
+
+    const destination =
+        document.getElementById(
+            "destination"
+        );
+
+    if (!destination)
+        return;
+
+
+    destination.value =
+        data.destination || "";
+
+
+    document.getElementById(
+        "departureDate"
+    ).value =
+        data.departureDate || "";
+
+
+    document.getElementById(
+        "returnDate"
+    ).value =
+        data.returnDate || "";
+
+
+    document.getElementById(
+        "goodThreshold"
+    ).value =
+        data.goodThreshold;
+
+
+    document.getElementById(
+        "maxThreshold"
+    ).value =
+        data.maxThreshold;
+
+
+    const container =
+        document.getElementById(
+            "groupsContainer"
+        );
+
+
+    container.innerHTML = "";
+
+
+    if (data.groups.length === 0) {
+
+        container.innerHTML =
+            `<div class="empty">
+                ${t("noGroups")}
+             </div>`;
+
+        return;
+
+    }
+
+
+    data.groups.forEach(
+        (group, index) => {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+
+            div.className =
+                "group-card";
+
+
+            div.innerHTML = `
+
+                <div class="group-title">
+
+                    <h3>
+                        ${t("group")} ${index + 1}
+                    </h3>
+
+                    <button
+                        class="btn btn-danger"
+                        onclick="
+                            removeGroup('${group.id}')
+                        ">
+                        ${t("delete")}
+                    </button>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>
+                            ${t("group")}
+                        </label>
+
+                        <input
+                            value="${escapeHtml(group.name)}"
+                            onchange="
+                                updateGroup(
+                                    '${group.id}',
+                                    'name',
+                                    this.value
+                                )
+                            ">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            ${currentLanguage === "fr"
+                                ? "Ville de départ"
+                                : "Departure city"}
+                        </label>
+
+                        <input
+                            value="${escapeHtml(group.origin)}"
+                            onchange="
+                                updateGroup(
+                                    '${group.id}',
+                                    'origin',
+                                    this.value
+                                )
+                            ">
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            container.appendChild(div);
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   VOLS
+===================================================== */
+
+function addFlight(groupId) {
+
+    const group =
+        getGroup(groupId);
+
+
+    if (!group)
+        return;
+
+
+    group.flights.push({
+
+        id: generateId(),
+
+        departureDate:
+            data.departureDate || "",
+
+        departureTime: "",
+
+        arrivalDay: 0,
+
+        arrivalTime: "",
+
+        returnDate:
+            data.returnDate || "",
+
+        returnTime: ""
+
+    });
+
+
+    renderFlights();
+
+    saveData();
+
+}
+
+
+function removeFlight(
+    groupId,
+    flightId
+) {
+
+    const group =
+        getGroup(groupId);
+
+
+    if (!group)
+        return;
+
+
+    group.flights =
+        group.flights.filter(
+            f => f.id !== flightId
+        );
+
+
+    renderFlights();
+
+    updateEverything();
+
+}
+
+
+function updateFlight(
+    groupId,
+    flightId,
+    field,
+    value
+) {
+
+    const group =
+        getGroup(groupId);
+
+
+    if (!group)
+        return;
+
+
+    const flight =
+        group.flights.find(
+            f => f.id === flightId
+        );
+
+
+    if (!flight)
+        return;
+
+
+    flight[field] =
+        field === "arrivalDay"
+        ? Number(value)
+        : value;
+
+
+    saveData();
+
+}
+
+
+/* =====================================================
+   RENDU VOLS
+===================================================== */
+
+function renderFlights() {
+
+    const container =
+        document.getElementById(
+            "flightsContainer"
+        );
+
+
+    if (!container)
+        return;
+
+
+    container.innerHTML = "";
+
+
+    if (data.groups.length === 0) {
+
+        container.innerHTML =
+            `<div class="empty">
+                ${t("noGroups")}
+             </div>`;
+
+        return;
+
+    }
+
+
+    data.groups.forEach(
+        (group, groupIndex) => {
+
+            const groupBlock =
+                document.createElement(
+                    "div"
+                );
+
+
+            groupBlock.className =
+                "card";
+
+
+            groupBlock.innerHTML = `
+
+                <div class="group-title">
+
+                    <h3>
+                        ${escapeHtml(group.name)}
+                        ${
+                            group.origin
+                            ? " — " +
+                              escapeHtml(
+                                  group.origin
+                              )
+                            : ""
+                        }
+                    </h3>
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="
+                            addFlight('${group.id}')
+                        ">
+                        ${t("addFlight")}
+                    </button>
+
+                </div>
+
+            `;
+
+
+            if (group.flights.length === 0) {
+
+                const empty =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                empty.className =
+                    "empty";
+
+
+                empty.innerHTML =
+                    t("noFlight");
+
+
+                groupBlock.appendChild(
+                    empty
+                );
+
+            }
+
+
+            group.flights.forEach(
+                (flight, index) => {
+
+                    const div =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    div.className =
+                        "flight-card";
+
+
+                    let arrivalOptions = "";
+
+
+                    for (
+                        let i = 0;
+                        i <= 9;
+                        i++
+                    ) {
+
+                        arrivalOptions +=
+                            `<option
+                                value="${i}"
+                                ${
+                                    Number(
+                                        flight.arrivalDay
+                                    ) === i
+                                    ? "selected"
+                                    : ""
+                                }>
+                                J+${i}
+                             </option>`;
+
+                    }
+
+
+                    div.innerHTML = `
+
+                        <div class="flight-header">
+
+                            <strong>
+                                ${t("option")} ${index + 1}
+                            </strong>
+
+                            <button
+                                class="btn btn-danger"
+                                onclick="
+                                    removeFlight(
+                                        '${group.id}',
+                                        '${flight.id}'
+                                    )
+                                ">
+                                ${t("delete")}
+                            </button>
+
+                        </div>
+
+
+                        <div class="flight-grid">
+
+                            <div class="form-group">
+
+                                <label>
+                                    ${t("departure")}
+                                </label>
+
+                                <input
+                                    type="date"
+                                    value="${
+                                        flight.departureDate
+                                        || ""
+                                    }"
+                                    onchange="
+                                        updateFlight(
+                                            '${group.id}',
+                                            '${flight.id}',
+                                            'departureDate',
+                                            this.value
+                                        )
+                                    ">
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    ${currentLanguage === "fr"
+                                        ? "Heure départ"
+                                        : "Departure time"}
+                                </label>
+
+                                <input
+                                    type="time"
+                                    value="${
+                                        flight.departureTime
+                                        || ""
+                                    }"
+                                    onchange="
+                                        updateFlight(
+                                            '${group.id}',
+                                            '${flight.id}',
+                                            'departureTime',
+                                            this.value
+                                        )
+                                    ">
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    ${t("arrivalDay")}
+                                </label>
+
+                                <select
+                                    onchange="
+                                        updateFlight(
+                                            '${group.id}',
+                                            '${flight.id}',
+                                            'arrivalDay',
+                                            this.value
+                                        )
+                                    ">
+
+                                    ${arrivalOptions}
+
+                                </select>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    ${t("arrivalTime")}
+                                </label>
+
+                                <input
+                                    type="time"
+                                    value="${
+                                        flight.arrivalTime
+                                        || ""
+                                    }"
+                                    onchange="
+                                        updateFlight(
+                                            '${group.id}',
+                                            '${flight.id}',
+                                            'arrivalTime',
+                                            this.value
+                                        )
+                                    ">
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    ${t("returnDateLabel")}
+                                </label>
+
+                                <input
+                                    type="date"
+                                    value="${
+                                        flight.returnDate
+                                        || ""
+                                    }"
+                                    onchange="
+                                        updateFlight(
+                                            '${group.id}',
+                                            '${flight.id}',
+                                            'returnDate',
+                                            this.value
+                                        )
+                                    ">
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    ${t("returnTime")}
+                                </label>
+
+                                <input
+                                    type="time"
+                                    value="${
+                                        flight.returnTime
+                                        || ""
+                                    }"
+                                    onchange="
+                                        updateFlight(
+                                            '${group.id}',
+                                            '${flight.id}',
+                                            'returnTime',
+                                            this.value
+                                        )
+                                    ">
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+
+                    groupBlock.appendChild(
+                        div
+                    );
+
+                }
+            );
+
+
+            container.appendChild(
+                groupBlock
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   TEMPS
+===================================================== */
+
+function timeToMinutes(time) {
+
+    if (!time)
+        return null;
+
+
+    const parts =
+        time.split(":");
+
+
+    if (parts.length !== 2)
+        return null;
+
+
+    return (
+        Number(parts[0]) * 60
+        +
+        Number(parts[1])
+    );
+
+}
+
+
+/*
+   Transforme une date YYYY-MM-DD
+   en nombre de jours depuis epoch.
+*/
+
+function dateToDayNumber(dateString) {
+
+    if (!dateString)
+        return null;
+
+
+    const date =
+        new Date(
+            dateString + "T00:00:00"
+        );
+
+
+    if (isNaN(date.getTime()))
+        return null;
+
+
+    return Math.floor(
+        date.getTime() / 86400000
+    );
+
+}
+
+
+/*
+   IMPORTANT :
+
+   Pour une arrivée :
+
+   vraie date =
+   date de départ + arrivalDay
+
+   Puis heure.
+
+   Cela évite les erreurs J+1/J+2.
+*/
+
+function getArrivalAbsoluteMinutes(
+    flight
+) {
+
+    if (
+        !flight.departureDate ||
+        !flight.arrivalTime
+    )
+        return null;
+
+
+    const departureDay =
+        dateToDayNumber(
+            flight.departureDate
+        );
+
+
+    const arrivalDay =
+        Number(
+            flight.arrivalDay || 0
+        );
+
+
+    const time =
+        timeToMinutes(
+            flight.arrivalTime
+        );
+
+
+    if (
+        departureDay == null ||
+        time == null
+    )
+        return null;
+
+
+    return (
+        departureDay * 1440
+        +
+        arrivalDay * 1440
+        +
+        time
+    );
+
+}
+
+
+/*
+   Pour les retours :
+
+   on utilise la vraie date du retour
+   + l'heure du départ retour.
+
+   C'est essentiel pour éviter de comparer
+   uniquement 20h05 avec 20h55 si les dates
+   sont différentes.
+*/
+
+function getReturnAbsoluteMinutes(
+    flight
+) {
+
+    if (
+        !flight.returnDate ||
+        !flight.returnTime
+    )
+        return null;
+
+
+    const day =
+        dateToDayNumber(
+            flight.returnDate
+        );
+
+
+    const time =
+        timeToMinutes(
+            flight.returnTime
+        );
+
+
+    if (
+        day == null ||
+        time == null
+    )
+        return null;
+
+
+    return (
+        day * 1440
+        +
+        time
+    );
+
+}
+
+
+function differenceMinutes(
+    a,
+    b
+) {
+
+    if (
+        a == null ||
+        b == null
+    )
+        return null;
+
+
+    return Math.abs(a - b);
+
+}
+
+
+function formatDifference(
+    minutes
+) {
+
+    if (minutes == null)
+        return "";
+
+
+    minutes =
+        Math.round(minutes);
+
+
+    const days =
+        Math.floor(
+            minutes / 1440
+        );
+
+
+    const hours =
+        Math.floor(
+            (minutes % 1440) / 60
+        );
+
+
+    const mins =
+        minutes % 60;
+
+
+    let result = "";
+
+
+    if (days)
+        result += days + "d ";
+
+
+    if (hours)
+        result += hours + "h ";
+
+
+    if (
+        mins ||
+        result === ""
+    )
+        result += mins + "min";
+
+
+    return result.trim();
+
+}
+
+
+function formatDateString(
+    dateString
+) {
+
+    if (!dateString)
+        return "";
+
+
+    const date =
+        new Date(
+            dateString +
+            "T00:00:00"
+        );
+
+
+    if (isNaN(date.getTime()))
+        return "";
+
+
+    const day =
+        String(
+            date.getDate()
+        ).padStart(2, "0");
+
+
+    const month =
+        String(
+            date.getMonth() + 1
+        ).padStart(2, "0");
+
+
+    return (
+        day +
+        "/" +
+        month +
+        "/" +
+        date.getFullYear()
+    );
+
+}
+
+
+function calculateArrivalDate(
+    flight
+) {
+
+    if (!flight.departureDate)
+        return "";
+
+
+    const date =
+        new Date(
+            flight.departureDate +
+            "T00:00:00"
+        );
+
+
+    if (isNaN(date.getTime()))
+        return "";
+
+
+    date.setDate(
+        date.getDate() +
+        Number(
+            flight.arrivalDay || 0
+        )
+    );
+
+
+    return formatDateString(
+        date.toISOString().slice(0,10)
+    );
+
+}
+
+
+/* =====================================================
+   AFFICHAGE ARRIVÉE
+===================================================== */
+
+function formatFlightArrival(
+    flight
+) {
+
+    if (!flight)
+        return "";
+
+
+    const date =
+        calculateArrivalDate(
+            flight
+        );
+
+
+    return `
+        ${date || t("dateUnknown")}
+        —
+        ${flight.arrivalTime || t("timeUnknown")}
+    `;
+
+}
+
+
+/* =====================================================
+   AFFICHAGE RETOUR
+===================================================== */
+
+function formatFlightReturn(
+    flight
+) {
+
+    if (!flight)
+        return "";
+
+
+    return `
+        ${
+            formatDateString(
+                flight.returnDate
+            )
+            ||
+            t("dateUnknown")
+        }
+        —
+        ${
+            flight.returnTime
+            ||
+            t("timeUnknown")
+        }
+    `;
+
+}
+
+
+/* =====================================================
+   MATRICE ARRIVÉES
+===================================================== */
+
+function buildArrivalMatrix() {
+
+    const container =
+        document.getElementById(
+            "arrivalMatrix"
+        );
+
+
+    if (data.groups.length < 2) {
+
+        container.innerHTML =
+            `<div class="empty">
+                ${t("noGroups")}
+             </div>`;
+
+        return;
+
+    }
+
+
+    let html = `
+
+        <div class="table-wrapper">
+
+        <table>
+
+        <thead>
+
+        <tr>
+
+            <th>${t("option")}</th>
+
+    `;
+
+
+    data.groups.forEach(
+        group => {
+
+            html += `
+                <th>
+                    ${escapeHtml(
+                        group.name
+                    )}
+                </th>
+            `;
+
+        }
+    );
+
+
+    html += `
+        </tr>
+        </thead>
+
+        <tbody>
+    `;
+
+
+    data.groups.forEach(
+        group => {
+
+            group.flights.forEach(
+                (flight, index) => {
+
+                    html += `
+
+                        <tr>
+
+                        <td>
+                            ${escapeHtml(
+                                group.name
+                            )}
+
+                            — ${t("option")} ${index + 1}
+
+                            <br>
+
+                            <small>
+                                ${formatFlightArrival(
+                                    flight
+                                )}
+                            </small>
+
+                        </td>
+
+                    `;
+
+
+                    data.groups.forEach(
+                        otherGroup => {
+
+                            if (
+                                otherGroup.id ===
+                                group.id
+                            ) {
+
+                                html += `
+                                    <td>
+                                        <span
+                                            class="neutral">
+                                            —
+                                        </span>
+                                    </td>
+                                `;
+
+                                return;
+
+                            }
+
+
+                            const best =
+                                findBestArrivalCompatibility(
+                                    flight,
+                                    otherGroup
+                                );
+
+
+                            html +=
+                                renderCompatibilityCell(
+                                    best
+                                );
+
+                        }
+                    );
+
+
+                    html += `
+                        </tr>
+                    `;
+
+                }
+            );
+
+        }
+    );
+
+
+    html += `
+        </tbody>
+        </table>
+        </div>
+    `;
+
+
+    container.innerHTML =
+        html;
+
+}
+
+
+function findBestArrivalCompatibility(
+    flight,
+    otherGroup
+) {
+
+    let best = null;
+
+
+    otherGroup.flights.forEach(
+        otherFlight => {
+
+            const a =
+                getArrivalAbsoluteMinutes(
+                    flight
+                );
+
+
+            const b =
+                getArrivalAbsoluteMinutes(
+                    otherFlight
+                );
+
+
+            const diff =
+                differenceMinutes(
+                    a,
+                    b
+                );
+
+
+            if (
+                diff != null &&
+                (
+                    !best ||
+                    diff < best.diff
+                )
+            ) {
+
+                best = {
+
+                    diff,
+
+                    flight:
+                        otherFlight
+
+                };
+
+            }
+
+        }
+    );
+
+
+    return best;
+
+}
+
+
+function renderCompatibilityCell(
+    result
+) {
+
+    if (!result) {
+
+        return `
+            <td>
+                <span class="neutral">
+                    ${t("noData")}
+                </span>
+            </td>
+        `;
+
+    }
+
+
+    const good =
+        Number(
+            data.goodThreshold
+        );
+
+
+    const max =
+        Number(
+            data.maxThreshold
+        );
+
+
+    let css =
+        result.diff <= good
+        ? "good"
+        : result.diff <= max
+        ? "medium"
+        : "bad";
+
+
+    const icon =
+        css === "good"
+        ? "🟢"
+        : css === "medium"
+        ? "🟠"
+        : "🔴";
+
+
+    return `
+
+        <td>
+
+            <div class="${css}"
+                 style="
+                    border-radius:8px;
+                    padding:9px;
+                    font-weight:bold;
+                 ">
+
+                ${icon}
+
+                ${formatFlightArrival(
+                    result.flight
+                )}
+
+                <br>
+
+                <small>
+                    ${t("difference")} :
+                    ${formatDifference(
+                        result.diff
+                    )}
+                </small>
+
+            </div>
+
+        </td>
+
+    `;
+
+}
+
+
+/* =====================================================
+   MATRICE RETOURS
+===================================================== */
+
+function buildReturnMatrix() {
+
+    const container =
+        document.getElementById(
+            "returnMatrix"
+        );
+
+
+    let html = `
+
+        <div class="table-wrapper">
+
+        <table>
+
+        <thead>
+
+        <tr>
+
+            <th>${t("option")}</th>
+
+            <th>
+                ${t("returnTime")}
+            </th>
+
+    `;
+
+
+    data.groups.forEach(
+        group => {
+
+            html += `
+                <th>
+                    ${escapeHtml(
+                        group.name
+                    )}
+                </th>
+            `;
+
+        }
+    );
+
+
+    html += `
+        </tr>
+        </thead>
+
+        <tbody>
+    `;
+
+
+    data.groups.forEach(
+        group => {
+
+            group.flights.forEach(
+                (flight, index) => {
+
+                    if (
+                        !flight.returnTime ||
+                        !flight.returnDate
+                    )
+                        return;
+
+
+                    html += `
+
+                        <tr>
+
+                        <td>
+                            ${escapeHtml(
+                                group.name
+                            )}
+
+                            — ${t("option")} ${index + 1}
+                        </td>
+
+                        <td>
+                            ${formatFlightReturn(
+                                flight
+                            )}
+                        </td>
+
+                    `;
+
+
+                    data.groups.forEach(
+                        otherGroup => {
+
+                            if (
+                                otherGroup.id ===
+                                group.id
+                            ) {
+
+                                html += `
+                                    <td>
+                                        <span
+                                            class="neutral">
+                                            —
+                                        </span>
+                                    </td>
+                                `;
+
+                                return;
+
+                            }
+
+
+                            let best = null;
+
+
+                            otherGroup.flights.forEach(
+                                otherFlight => {
+
+                                    const a =
+                                        getReturnAbsoluteMinutes(
+                                            flight
+                                        );
+
+
+                                    const b =
+                                        getReturnAbsoluteMinutes(
+                                            otherFlight
+                                        );
+
+
+                                    const diff =
+                                        differenceMinutes(
+                                            a,
+                                            b
+                                        );
+
+
+                                    if (
+                                        diff != null &&
+                                        (
+                                            !best ||
+                                            diff < best.diff
+                                        )
+                                    ) {
+
+                                        best = {
+
+                                            diff,
+
+                                            flight:
+                                                otherFlight
+
+                                        };
+
+                                    }
+
+                                }
+                            );
+
+
+                            html +=
+                                renderReturnCell(
+                                    best
+                                );
+
+                        }
+                    );
+
+
+                    html += `
+                        </tr>
+                    `;
+
+                }
+            );
+
+        }
+    );
+
+
+    html += `
+        </tbody>
+        </table>
+        </div>
+    `;
+
+
+    container.innerHTML =
+        html;
+
+}
+
+
+function renderReturnCell(
+    result
+) {
+
+    if (!result) {
+
+        return `
+            <td>
+                <span class="neutral">
+                    ${t("noReturn")}
+                </span>
+            </td>
+        `;
+
+    }
+
+
+    const diff =
+        result.diff;
+
+
+    const css =
+        diff <= Number(data.goodThreshold)
+        ? "good"
+        : diff <= Number(data.maxThreshold)
+        ? "medium"
+        : "bad";
+
+
+    const icon =
+        css === "good"
+        ? "🟢"
+        : css === "medium"
+        ? "🟠"
+        : "🔴";
+
+
+    return `
+
+        <td>
+
+            <div class="${css}"
+                 style="
+                    border-radius:8px;
+                    padding:9px;
+                    font-weight:bold;
+                 ">
+
+                ${icon}
+
+                ${formatFlightReturn(
+                    result.flight
+                )}
+
+                <br>
+
+                <small>
+                    ${t("difference")} :
+                    ${formatDifference(diff)}
+                </small>
+
+            </div>
+
+        </td>
+
+    `;
+
+}
+
+
+/* =====================================================
+   COMBINAISONS
+===================================================== */
+
+function generateGroupCombinations(
+    groups
+) {
+
+    const result = [];
+
+
+    function recurse(
+        start,
+        current
+    ) {
+
+        if (current.length >= 2) {
+
+            result.push(
+                [...current]
+            );
+
+        }
+
+
+        for (
+            let i = start;
+            i < groups.length;
+            i++
+        ) {
+
+            current.push(
+                groups[i]
+            );
+
+
+            recurse(
+                i + 1,
+                current
+            );
+
+
+            current.pop();
+
+        }
+
+    }
+
+
+    recurse(
+        0,
+        []
+    );
+
+
+    return result;
+
+}
+
+
+/* =====================================================
+   MEILLEUR GROUPE ARRIVÉE
+===================================================== */
+
+function findBestGroupCombination(
+    groupCombination
+) {
+
+    const options =
+        groupCombination.map(
+            group => ({
+
+                group,
+
+                flights:
+                    group.flights.filter(
+                        f =>
+                            getArrivalAbsoluteMinutes(
+                                f
+                            ) != null
+                    )
+
+            })
+        );
+
+
+    if (
+        options.some(
+            x => x.flights.length === 0
+        )
+    ) {
+
+        return null;
+
+    }
+
+
+    let best = null;
+
+
+    function recurse(
+        index,
+        selected
+    ) {
+
+        if (
+            index ===
+            options.length
+        ) {
+
+            const times =
+                selected.map(
+                    item =>
+                        getArrivalAbsoluteMinutes(
+                            item.flight
+                        )
+                );
+
+
+            const min =
+                Math.min(...times);
+
+
+            const max =
+                Math.max(...times);
+
+
+            const window =
+                max - min;
+
+
+            if (
+                !best ||
+                window < best.window
+            ) {
+
+                best = {
+
+                    window,
+
+                    selected:
+                        [...selected]
+
+                };
+
+            }
+
+
+            return;
+
+        }
+
+
+        const current =
+            options[index];
+
+
+        current.flights.forEach(
+            flight => {
+
+                selected.push({
+
+                    group:
+                        current.group,
+
+                    flight
+
+                });
+
+
+                recurse(
+                    index + 1,
+                    selected
+                );
+
+
+                selected.pop();
+
+            }
+        );
+
+    }
+
+
+    recurse(
+        0,
+        []
+    );
+
+
+    return best;
+
+}
+
+
+/* =====================================================
+   MEILLEUR GROUPE RETOUR
+===================================================== */
+
+function findBestReturnCombination(
+    groupCombination
+) {
+
+    const options =
+        groupCombination.map(
+            group => ({
+
+                group,
+
+                flights:
+                    group.flights.filter(
+                        f =>
+                            getReturnAbsoluteMinutes(
+                                f
+                            ) != null
+                    )
+
+            })
+        );
+
+
+    if (
+        options.some(
+            x => x.flights.length === 0
+        )
+    )
+        return null;
+
+
+    let best = null;
+
+
+    function recurse(
+        index,
+        selected
+    ) {
+
+        if (
+            index ===
+            options.length
+        ) {
+
+            const times =
+                selected.map(
+                    item =>
+                        getReturnAbsoluteMinutes(
+                            item.flight
+                        )
+                );
+
+
+            const min =
+                Math.min(...times);
+
+
+            const max =
+                Math.max(...times);
+
+
+            const window =
+                max - min;
+
+
+            if (
+                !best ||
+                window < best.window
+            ) {
+
+                best = {
+
+                    window,
+
+                    selected:
+                        [...selected]
+
+                };
+
+            }
+
+
+            return;
+
+        }
+
+
+        options[index].flights
+            .forEach(
+                flight => {
+
+                    selected.push({
+
+                        group:
+                            options[index].group,
+
+                        flight
+
+                    });
+
+
+                    recurse(
+                        index + 1,
+                        selected
+                    );
+
+
+                    selected.pop();
+
+                }
+            );
+
+    }
+
+
+    recurse(
+        0,
+        []);
+
+
+    return best;
+
+}
+
+
+/* =====================================================
+   ÉVALUATION DES RECOMMANDATIONS
+===================================================== */
+
+function evaluateArrivalGroups() {
+
+    const combinations =
+        generateGroupCombinations(
+            data.groups
+        );
+
+
+    const evaluated = [];
+
+
+    combinations.forEach(
+        combination => {
+
+            const best =
+                findBestGroupCombination(
+                    combination
+                );
+
+
+            if (!best)
+                return;
+
+
+            if (
+                best.window <=
+                Number(
+                    data.maxThreshold
+                )
+            ) {
+
+                evaluated.push({
+
+                    groups:
+                        combination,
+
+                    ...best
+
+                });
+
+            }
+
+        }
+    );
+
+
+    evaluated.sort(
+        (a, b) => {
+
+            if (
+                b.groups.length !==
+                a.groups.length
+            ) {
+
+                return (
+                    b.groups.length -
+                    a.groups.length
+                );
+
+            }
+
+
+            return (
+                a.window -
+                b.window
+            );
+
+        }
+    );
+
+
+    return evaluated;
+
+}
+
+
+function evaluateReturnGroups() {
+
+    const combinations =
+        generateGroupCombinations(
+            data.groups
+        );
+
+
+    const evaluated = [];
+
+
+    combinations.forEach(
+        combination => {
+
+            const best =
+                findBestReturnCombination(
+                    combination
+                );
+
+
+            if (!best)
+                return;
+
+
+            if (
+                best.window <=
+                Number(
+                    data.maxThreshold
+                )
+            ) {
+
+                evaluated.push({
+
+                    groups:
+                        combination,
+
+                    ...best
+
+                });
+
+            }
+
+        }
+    );
+
+
+    evaluated.sort(
+        (a, b) => {
+
+            if (
+                b.groups.length !==
+                a.groups.length
+            ) {
+
+                return (
+                    b.groups.length -
+                    a.groups.length
+                );
+
+            }
+
+
+            return (
+                a.window -
+                b.window
+            );
+
+        }
+    );
+
+
+    return evaluated;
+
+}
+
+
+/* =====================================================
+   AFFICHAGE RECOMMANDATION
+===================================================== */
+
+function renderRecommendation(
+    recommendation,
+    index,
+    type
+) {
+
+    const good =
+        recommendation.window <=
+        Number(
+            data.goodThreshold
+        );
+
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.className =
+        "recommendation" +
+        (
+            good
+            ? ""
+            : " possible"
+        ) +
+        (
+            type === "return"
+            ? " return"
+            : ""
+        );
+
+
+    const people =
+        recommendation.groups
+            .map(
+                g =>
+                    escapeHtml(
+                        g.name
+                    )
+            )
+            .join(
+                " + "
+            );
+
+
+    let details = "";
+
+
+    const selected =
+        [...recommendation.selected]
+            .sort(
+                (a, b) => {
+
+                    const fn =
+                        type === "return"
+                        ? getReturnAbsoluteMinutes
+                        : getArrivalAbsoluteMinutes;
+
+
+                    return (
+                        fn(a.flight)
+                        -
+                        fn(b.flight)
+                    );
+
+                }
+            );
+
+
+    selected.forEach(
+        item => {
+
+            details += `
+
+                <p>
+
+                    <strong>
+                        ${escapeHtml(
+                            item.group.name
+                        )}
+                    </strong>
+
+                    :
+
+                    ${
+                        type === "return"
+                        ? formatFlightReturn(
+                            item.flight
+                          )
+                        : formatFlightArrival(
+                            item.flight
+                          )
+                    }
+
+                </p>
+
+            `;
+
+        }
+    );
+
+
+    const badge =
+        type === "return"
+        ? (
+            good
+            ? t("returnBest")
+            : t("returnPossible")
+        )
+        : (
+            good
+            ? t("bestGroup")
+            : t("possibleGroup")
+        );
+
+
+    const badgeClass =
+        good
+        ? "badge-green"
+        : "badge-orange";
+
+
+    div.innerHTML = `
+
+        <span class="
+            badge
+            ${badgeClass}
+        ">
+            ${badge}
+        </span>
+
+
+        <h3>
+            ${t("scenario")} ${index + 1}
+        </h3>
+
+
+        <div class="people">
+            ${people}
+        </div>
+
+
+        <div class="window">
+            ${formatDifference(
+                recommendation.window
+            )}
+        </div>
+
+
+        <p>
+            ${
+                type === "return"
+                ? t("returnWindow")
+                : t("arrivalWindow")
+            }
+        </p>
+
+
+        ${details}
+
+    `;
+
+
+    return div;
+
+}
+
+
+/* =====================================================
+   RECOMMANDATIONS
+===================================================== */
+
+function buildRecommendations() {
+
+    const arrivalContainer =
+        document.getElementById(
+            "arrivalRecommendations"
+        );
+
+
+    const returnContainer =
+        document.getElementById(
+            "returnRecommendations"
+        );
+
+
+    arrivalContainer.innerHTML = "";
+
+    returnContainer.innerHTML = "";
+
+
+    const arrivals =
+        evaluateArrivalGroups();
+
+
+    const returns =
+        evaluateReturnGroups();
+
+
+    arrivals
+        .slice(0, 6)
+        .forEach(
+            (recommendation, index) => {
+
+                arrivalContainer.appendChild(
+                    renderRecommendation(
+                        recommendation,
+                        index,
+                        "arrival"
+                    )
+                );
+
+            }
+        );
+
+
+    returns
+        .slice(0, 6)
+        .forEach(
+            (recommendation, index) => {
+
+                returnContainer.appendChild(
+                    renderRecommendation(
+                        recommendation,
+                        index,
+                        "return"
+                    )
+                );
+
+            }
+        );
+
+
+    if (arrivals.length === 0) {
+
+        arrivalContainer.innerHTML = `
+            <div class="empty">
+                ${t("noArrivalGroup")}
+            </div>
+        `;
+
+    }
+
+
+    if (returns.length === 0) {
+
+        returnContainer.innerHTML = `
+            <div class="empty">
+                ${t("noReturnGroup")}
+            </div>
+        `;
+
+    }
+
+
+    buildQuickRead();
+
+}
+
+
+/* =====================================================
+   LECTURE RAPIDE
+===================================================== */
+
+function buildQuickRead() {
+
+    const container =
+        document.getElementById(
+            "quickReadContent"
+        );
+
+
+    container.innerHTML = "";
+
+
+    const arrivals =
+        evaluateArrivalGroups();
+
+
+    const returns =
+        evaluateReturnGroups();
+
+
+    if (arrivals.length === 0) {
+
+        container.innerHTML += `
+
+            <div class="quick-item">
+
+                🔴
+
+                ${t("noArrivalGroup")}
+
+            </div>
+
+        `;
+
+    } else {
+
+        const best =
+            arrivals[0];
+
+
+        const names =
+            best.groups
+                .map(
+                    g =>
+                        escapeHtml(
+                            g.name
+                        )
+                )
+                .join(
+                    " + "
+                );
+
+
+        container.innerHTML += `
+
+            <div class="quick-item">
+
+                🛬
+
+                <strong>
+                    ${t("bestArrival")} :
+                </strong>
+
+                ${names}
+
+                — ${formatDifference(
+                    best.window
+                )}
+
+            </div>
+
+        `;
+
+    }
+
+
+    if (returns.length === 0) {
+
+        container.innerHTML += `
+
+            <div class="quick-item">
+
+                🔴
+
+                ${t("noReturnGroup")}
+
+            </div>
+
+        `;
+
+    } else {
+
+        const best =
+            returns[0];
+
+
+        const names =
+            best.groups
+                .map(
+                    g =>
+                        escapeHtml(
+                            g.name
+                        )
+                )
+                .join(
+                    " + "
+                );
+
+
+        container.innerHTML += `
+
+            <div class="quick-item">
+
+                🛫
+
+                <strong>
+                    ${t("bestReturn")} :
+                </strong>
+
+                ${names}
+
+                — ${formatDifference(
+                    best.window
+                )}
+
+            </div>
+
+        `;
+
+    }
+
+
+    if (data.destination) {
+
+        container.innerHTML += `
+
+            <div class="quick-item">
+
+                🌍
+
+                ${t("destinationLabel")} :
+
+                <strong>
+                    ${escapeHtml(
+                        data.destination
+                    )}
+                </strong>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   WHATSAPP
+===================================================== */
+
+function getBestArrivalForWhatsapp() {
+
+    const results =
+        evaluateArrivalGroups();
+
+    return results.length
+        ? results[0]
+        : null;
+
+}
+
+
+function getBestReturnForWhatsapp() {
+
+    const results =
+        evaluateReturnGroups();
+
+    return results.length
+        ? results[0]
+        : null;
+
+}
+
+
+function formatWhatsappDate(
+    flight,
+    type
+) {
+
+    if (type === "arrival") {
+
+        return formatFlightArrival(
+            flight
+        )
+        .replace(/<[^>]*>/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+
+    }
+
+
+    return formatFlightReturn(
+        flight
+    )
+    .replace(/<[^>]*>/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+}
+
+
+function generateWhatsAppMessage() {
+
+    const language =
+        document.getElementById(
+            "whatsappLanguage"
+        ).value;
+
+
+    const arrival =
+        getBestArrivalForWhatsapp();
+
+
+    const returnGroup =
+        getBestReturnForWhatsapp();
+
+
+    const destination =
+        data.destination ||
+        (
+            language === "fr"
+            ? "Destination"
+            : "Destination"
+        );
+
+
+    let message = "";
+
+
+    if (language === "en") {
+
+        message +=
+            "*✈️ TRAVEL ORGANIZATION*\n";
+
+        message +=
+            "━━━━━━━━━━━━━━━━━━\n\n";
+
+
+        message +=
+            "*🌍 Destination:* " +
+            destination +
+            "\n\n";
+
+
+        /*
+           ARRIVALS
+        */
+
+        message +=
+            "*🛬 ARRIVAL — BEST GROUP*\n";
+
+        message +=
+            "━━━━━━━━━━━━━━━━━━\n";
+
+
+        if (arrival) {
+
+            const names =
+                arrival.groups
+                    .map(
+                        g => g.name
+                    )
+                    .join(
+                        " + "
+                    );
+
+
+            message +=
+                "*Group:* " +
+                names +
+                "\n";
+
+
+            message +=
+                "*Arrival window:* " +
+                formatDifference(
+                    arrival.window
+                ) +
+                "\n\n";
+
+
+            arrival.selected
+                .slice()
+                .sort(
+                    (a, b) =>
+                        getArrivalAbsoluteMinutes(
+                            a.flight
+                        )
+                        -
+                        getArrivalAbsoluteMinutes(
+                            b.flight
+                        )
+                )
+                .forEach(
+                    item => {
+
+                        message +=
+                            "🛬 *" +
+                            item.group.name +
+                            "* — " +
+                            formatWhatsappDate(
+                                item.flight,
+                                "arrival"
+                            ) +
+                            "\n";
+
+                    }
+                );
+
+        } else {
+
+            message +=
+                "No suitable arrival group found.\n";
+
+        }
+
+
+        message += "\n";
+
+
+        /*
+           RETURNS
+        */
+
+        message +=
+            "*🛫 RETURN — BEST GROUP*\n";
+
+        message +=
+            "━━━━━━━━━━━━━━━━━━\n";
+
+
+        if (returnGroup) {
+
+            const names =
+                returnGroup.groups
+                    .map(
+                        g => g.name
+                    )
+                    .join(
+                        " + "
+                    );
+
+
+            message +=
+                "*Group:* " +
+                names +
+                "\n";
+
+
+            message +=
+                "*Return departure window:* " +
+                formatDifference(
+                    returnGroup.window
+                ) +
+                "\n\n";
+
+
+            returnGroup.selected
+                .slice()
+                .sort(
+                    (a, b) =>
+                        getReturnAbsoluteMinutes(
+                            a.flight
+                        )
+                        -
+                        getReturnAbsoluteMinutes(
+                            b.flight
+                        )
+                )
+                .forEach(
+                    item => {
+
+                        message +=
+                            "🛫 *" +
+                            item.group.name +
+                            "* — " +
+                            formatWhatsappDate(
+                                item.flight,
+                                "return"
+                            ) +
+                            "\n";
+
+                    }
+                );
+
+        } else {
+
+            message +=
+                "No suitable return group found.\n";
+
+        }
+
+
+        message += "\n";
+
+        message +=
+            "*📋 Organization summary*\n";
+
+        message +=
+            "━━━━━━━━━━━━━━━━━━\n";
+
+
+        if (arrival) {
+
+            message +=
+                "• Arrival group: " +
+                arrival.groups
+                    .map(g => g.name)
+                    .join(" + ") +
+                "\n";
+
+        }
+
+
+        if (returnGroup) {
+
+            message +=
+                "• Return group: " +
+                returnGroup.groups
+                    .map(g => g.name)
+                    .join(" + ") +
+                "\n";
+
+        }
+
+
+        message += "\n";
+
+        message +=
+            "_Please check the flight details before booking._";
+
+    } else {
+
+        message +=
+            "*✈️ ORGANISATION DU VOYAGE*\n";
+
+        message +=
+            "━━━━━━━━━━━━━━━━━━\n\n";
+
+
+        message +=
+            "*🌍 Destination :* " +
+            destination +
+            "\n\n";
+
+
+        message +=
+            "*🛬 ARRIVÉE — MEILLEUR GROUPE*\n";
+
+        message +=
+            "━━━━━━━━━━━━━━━━━━\n";
+
+
+        if (arrival) {
+
+            const names =
+                arrival.groups
+                    .map(
+                        g => g.name
+                    )
+                    .join(
+                        " + "
+                    );
+
+
+            message +=
+                "*Groupe :* " +
+                names +
+                "\n";
+
+
+            message +=
+                "*Fenêtre d'arrivée :* " +
+                formatDifference(
+                    arrival.window
+                ) +
+                "\n\n";
+
+
+            arrival.selected
+                .slice()
+                .sort(
+                    (a, b) =>
+                        getArrivalAbsoluteMinutes(
+                            a.flight
+                        )
+                        -
+                        getArrivalAbsoluteMinutes(
+                            b.flight
+                        )
+                )
+                .forEach(
+                    item => {
+
+                        message +=
+                            "🛬 *" +
+                            item.group.name +
+                            "* — " +
+                            formatWhatsappDate(
+                                item.flight,
+                                "arrival"
+                            ) +
+                            "\n";
+
+                    }
+                );
+
+        } else {
+
+            message +=
+                "Aucun groupe d'arrivée adapté.\n";
+
+        }
+
+
+        message += "\n";
+
+
+        message +=
+            "*🛫 RETOUR — MEILLEUR GROUPE*\n";
+
+        message +=
+            "━━━━━━━━━━━━━━━━━━\n";
+
+
+        if (returnGroup) {
+
+            const names =
+                returnGroup.groups
+                    .map(
+                        g => g.name
+                    )
+                    .join(
+                        " + "
+                    );
+
+
+            message +=
+                "*Groupe :* " +
+                names +
+                "\n";
+
+
+            message +=
+                "*Fenêtre de départ retour :* " +
+                formatDifference(
+                    returnGroup.window
+                ) +
+                "\n\n";
+
+
+            returnGroup.selected
+                .slice()
+                .sort(
+                    (a, b) =>
+                        getReturnAbsoluteMinutes(
+                            a.flight
+                        )
+                        -
+                        getReturnAbsoluteMinutes(
+                            b.flight
+                        )
+                )
+                .forEach(
+                    item => {
+
+                        message +=
+                            "🛫 *" +
+                            item.group.name +
+                            "* — " +
+                            formatWhatsappDate(
+                                item.flight,
+                                "return"
+                            ) +
+                            "\n";
+
+                    }
+                );
+
+        } else {
+
+            message +=
+                "Aucun groupe de retour adapté.\n";
+
+        }
+
+
+        message += "\n";
+
+
+        message +=
+            "*📋 Résumé de l'organisation*\n";
+
+        message +=
+            "━━━━━━━━━━━━━━━━━━\n";
+
+
+        if (arrival) {
+
+            message +=
+                "• Groupe arrivée : " +
+                arrival.groups
+                    .map(g => g.name)
+                    .join(" + ") +
+                "\n";
+
+        }
+
+
+        if (returnGroup) {
+
+            message +=
+                "• Groupe retour : " +
+                returnGroup.groups
+                    .map(g => g.name)
+                    .join(" + ") +
+                "\n";
+
+        }
+
+
+        message += "\n";
+
+        message +=
+            "_Vérifiez les détails des vols avant de réserver._";
+
+    }
+
+
+    document.getElementById(
+        "whatsappPreview"
+    ).textContent =
+        message;
+
+
+    return message;
+
+}
+
+
+async function copyWhatsAppMessage() {
+
+    let message =
+        document.getElementById(
+            "whatsappPreview"
+        ).textContent;
+
+
+    if (
+        !message ||
+        message === t("whatsappPlaceholder")
+    ) {
+
+        message =
+            generateWhatsAppMessage();
+
+    }
+
+
+    try {
+
+        await navigator.clipboard.writeText(
+            message
+        );
+
+
+        alert(
+            t("copied")
+        );
+
+    } catch (error) {
+
+        const textarea =
+            document.createElement(
+                "textarea"
+            );
+
+
+        textarea.value =
+            message;
+
+
+        document.body.appendChild(
+            textarea
+        );
+
+
+        textarea.select();
+
+        document.execCommand(
+            "copy"
+        );
+
+
+        textarea.remove();
+
+
+        alert(
+            t("copied")
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   MISE À JOUR
+===================================================== */
+
+function updateEverything() {
+
+    const destination =
+        document.getElementById(
+            "destination"
+        );
+
+
+    if (!destination)
+        return;
+
+
+    data.destination =
+        destination.value;
+
+
+    data.departureDate =
+        document.getElementById(
+            "departureDate"
+        ).value;
+
+
+    data.returnDate =
+        document.getElementById(
+            "returnDate"
+        ).value;
+
+
+    data.goodThreshold =
+        Number(
+            document.getElementById(
+                "goodThreshold"
+            ).value
+        ) || 60;
+
+
+    data.maxThreshold =
+        Number(
+            document.getElementById(
+                "maxThreshold"
+            ).value
+        ) || 180;
+
+
+    if (
+        data.goodThreshold >
+        data.maxThreshold
+    ) {
+
+        data.goodThreshold =
+            data.maxThreshold;
+
+
+        document.getElementById(
+            "goodThreshold"
+        ).value =
+            data.goodThreshold;
+
+    }
+
+
+    /*
+       On ne modifie les dates des vols
+       que si elles sont réellement vides.
+    */
+
+    data.groups.forEach(
+        group => {
+
+            group.flights.forEach(
+                flight => {
+
+                    if (
+                        !flight.departureDate &&
+                        data.departureDate
+                    ) {
+
+                        flight.departureDate =
+                            data.departureDate;
+
+                    }
+
+
+                    if (
+                        !flight.returnDate &&
+                        data.returnDate
+                    ) {
+
+                        flight.returnDate =
+                            data.returnDate;
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+
+    saveData();
+
+
+    document.getElementById(
+        "matrixSubtitle"
+    ).innerHTML =
+        data.destination
+        ? `${t("destinationLabel")} :
+           <strong>
+           ${escapeHtml(
+               data.destination
+           )}
+           </strong>`
+        : "";
+
+
+    buildArrivalMatrix();
+
+    buildReturnMatrix();
+
+    buildRecommendations();
+
+}
+
+
+/* =====================================================
+   SAUVEGARDE
+===================================================== */
+
+function saveData() {
+
+    localStorage.setItem(
+        "travelComparator",
+        JSON.stringify(data)
+    );
+
+}
+
+
+/* =====================================================
+   EXPORT JSON
+===================================================== */
+
+function exportJSON() {
+
+    updateEverything();
+
+
+    const json =
+        JSON.stringify(
+            data,
+            null,
+            2
+        );
+
+
+    const blob =
+        new Blob(
+            [json],
+            {
+                type:
+                    "application/json"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(
+            blob
+        );
+
+
+    const a =
+        document.createElement(
+            "a"
+        );
+
+
+    const destination =
+        data.destination
+        ? data.destination
+              .replace(
+                  /[^a-z0-9]/gi,
+                  "_"
+              )
+        : "voyage";
+
+
+    a.href =
+        url;
+
+
+    a.download =
+        "comparateur_" +
+        destination +
+        ".json";
+
+
+    document.body.appendChild(
+        a
+    );
+
+
+    a.click();
+
+    a.remove();
+
+
+    URL.revokeObjectURL(
+        url
+    );
+
+}
+
+
+/* =====================================================
+   IMPORT JSON
+===================================================== */
+
+function importJSON(event) {
+
+    const file =
+        event.target.files[0];
+
+
+    if (!file)
+        return;
+
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload =
+        function(e) {
+
+            try {
+
+                const imported =
+                    JSON.parse(
+                        e.target.result
+                    );
+
+
+                if (
+                    !imported ||
+                    !Array.isArray(
+                        imported.groups
+                    )
+                ) {
+
+                    throw new Error(
+                        "Invalid format"
+                    );
+
+                }
+
+
+                data =
+                    imported;
+
+
+                normalizeData();
+
+                saveData();
+
+                renderSettings();
+
+                renderFlights();
+
+                applyTranslations();
+
+
+                alert(
+                    t("imported")
+                );
+
+
+            } catch (error) {
+
+                alert(
+                    t("invalidFile") +
+                    "\n\n" +
+                    error.message
+                );
+
+            }
+
+        };
+
+
+    reader.readAsText(
+        file
+    );
+
+
+    event.target.value = "";
+
+}
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+function resetAll() {
+
+    if (
+        !confirm(
+            t("resetConfirm")
+        )
+    )
+        return;
+
+
+    localStorage.removeItem(
+        "travelComparator"
+    );
+
+
+    createDefaultData();
+
+    renderSettings();
+
+    renderFlights();
+
+    updateEverything();
+
+}
+
+
+/* =====================================================
+   TABS
+===================================================== */
+
+function showTab(
+    tabId,
+    button
+) {
+
+    document
+        .querySelectorAll(
+            ".tab-content"
+        )
+        .forEach(
+            tab =>
+                tab.classList.remove(
+                    "active"
+                )
+        );
+
+
+    document
+        .querySelectorAll(
+            ".tab-button"
+        )
+        .forEach(
+            btn =>
+                btn.classList.remove(
+                    "active"
+                )
+        );
+
+
+    document
+        .getElementById(
+            tabId
+        )
+        .classList.add(
+            "active"
+        );
+
+
+    button.classList.add(
+        "active"
+    );
+
+}
+
+
+/* =====================================================
+   PWA / INSTALLATION iPHONE
+===================================================== */
+
+let deferredInstallPrompt = null;
+
+function showInstallHelp() {
+    const existing = document.getElementById("pwaHelpOverlay");
+    if (existing) existing.remove();
+
+    const overlay = document.createElement("div");
+    overlay.id = "pwaHelpOverlay";
+    overlay.className = "pwa-help-overlay";
+
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    overlay.innerHTML = `
+        <div class="pwa-help-modal">
+            <h2>📱 Install Travel Comparator</h2>
+            ${isIOS ? `
+                <ol>
+                    <li>Open this website in <strong>Safari</strong> on your iPhone.</li>
+                    <li>Tap the <strong>Share</strong> button.</li>
+                    <li>Choose <strong>Add to Home Screen</strong>.</li>
+                    <li>Tap <strong>Add</strong>.</li>
+                </ol>
+                <p>The app will then open from your Home Screen like a standalone app.</p>
+            ` : `
+                <ol>
+                    <li>Use your browser's install/add-to-home-screen option.</li>
+                    <li>Confirm the installation.</li>
+                </ol>
+            `}
+            <button class="btn btn-primary" onclick="document.getElementById('pwaHelpOverlay').remove()">OK</button>
+        </div>
+    `;
+
+    overlay.addEventListener("click", event => {
+        if (event.target === overlay) overlay.remove();
+    });
+
+    document.body.appendChild(overlay);
+}
+
+window.addEventListener("beforeinstallprompt", event => {
+    event.preventDefault();
+    deferredInstallPrompt = event;
+    const card = document.getElementById("pwaInstallCard");
+    if (card) {
+        card.style.display = "block";
+        card.querySelector("button").onclick = installPWA;
+    }
+});
+
+window.addEventListener("appinstalled", () => {
+    deferredInstallPrompt = null;
+    const card = document.getElementById("pwaInstallCard");
+    if (card) card.style.display = "none";
+});
+
+async function installPWA() {
+    if (!deferredInstallPrompt) {
+        showInstallHelp();
+        return;
+    }
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt = null;
+}
+
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("sw.js").catch(error => {
+            console.warn("Service worker registration failed:", error);
+        });
+    });
+}
+
+/* =====================================================
+   DÉMARRAGE
+===================================================== */
+
+init();
+
+</script>
+
+</body>
+</html>

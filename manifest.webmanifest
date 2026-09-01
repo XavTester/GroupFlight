@@ -1,0 +1,13 @@
+{
+  "name": "Travel Comparator",
+  "short_name": "Travel Comparator",
+  "description": "Find the best arrival and return group combinations for a shared trip.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f4f6f8",
+  "theme_color": "#1f4e78",
+  "lang": "en",
+  "categories": ["travel", "utilities"]
+}
